@@ -37,7 +37,7 @@
     },
     "extra": {
         "name": "Video Embedder",
-        "handle": "craft3-videoembedder",
+        "handle": "video-embedder",
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
