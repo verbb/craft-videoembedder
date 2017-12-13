@@ -6,7 +6,7 @@ Ported over from [Viget's](https://viget.com) [Video Embed plugin for Craft 2.x]
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 3.0.0-RC1 or later.
 
 ## Installation
 
