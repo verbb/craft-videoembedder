@@ -12,7 +12,7 @@ This plugin requires Craft CMS 3.0.0-RC1 or later.
 
 To install Video Embedder, follow these steps:
 
-1. Install with Composer via `composer require mikestecker/craft3-videoembedder` from your project directory
+1. Install with Composer via `composer require mikestecker/craft-videoembedder` from your project directory
 2. Install plugin in the Craft Control Panel under Settings > Plugins
 
 Video Embedder works on Craft 3.x.
