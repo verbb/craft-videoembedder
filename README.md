@@ -26,13 +26,13 @@ Video Embedder will take your YouTube or Vimeo URL's and convert the URL into an
 Pass a YouTube or Vimeo URL to the `getEmbedUrl` variable and an embed URL will be returned.
 
 ```
-{{ craft.videoEmbed.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
+{{ craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
 ```
 
 **Example:**
 
 ```
-<iframe src="{{ craft.videoEmbed.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}"></iframe>
+<iframe src="{{ craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}"></iframe>
 ```
 
 **Output:**
@@ -44,7 +44,7 @@ Pass a YouTube or Vimeo URL to the `getEmbedUrl` variable and an embed URL will 
 Video Embedder will also pull the largest thumbnail URL from YouTube or Vimeo using the `getVideoThumbnail` variable.
 
 ```
-{{ craft.videoEmbed.getVideoThumbnail('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
+{{ craft.videoEmbedder.getVideoThumbnail('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
 ```
 
 **Output:**
