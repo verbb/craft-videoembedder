@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.6 - 2018-02-20
+### Changed
+- Code cleanup
+- Thumbnail images now remove `http:` or `https:` from the URL to prevent mixed security
+
 ## 1.0.5 - 2018-02-19
 ### Added
 - Added new `embed` variable
