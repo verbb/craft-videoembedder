@@ -1,5 +1,7 @@
 # Video Embedder plugin for Craft CMS 3.x
 
+![Screenshot](resources/img/plugin-logo.png)
+
 Craft plugin to generate an embed URL from a YouTube or Vimeo URL. This plugin will be 100% free.
 
 Ported over from [Viget's](https://viget.com) [Video Embed plugin for Craft 2.x](https://github.com/vigetlabs/craft-videoembed).
