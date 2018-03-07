@@ -35,8 +35,7 @@ class VideoEmbedderService extends Component
     public function getInfo($url)
     {
         return Embed::create($url, [
-            'min_image_width' => 1280,
-            'min_image_height' => 720,
+            'choose_bigger_image' => true,
             'parameters' => [],
         ]);
     }
