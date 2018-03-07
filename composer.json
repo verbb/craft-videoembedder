@@ -2,7 +2,7 @@
     "name": "mikestecker/craft-videoembedder",
     "description": "Craft plugin to generate an embed URL from a YouTube or Vimeo URL.",
     "type": "craft-plugin",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "keywords": [
         "craft",
         "cms",
@@ -11,7 +11,7 @@
         "video embedder"
     ],
     "support": {
-        "docs": "https://github.com/mikestecker/craft-videoembedder/blob/master/README.md",
+        "docs": "https://github.com/mikestecker/craft-videoembedder/blob/v1/README.md",
         "issues": "https://github.com/mikestecker/craft-videoembedder/issues"
     },
     "license": "MIT",
@@ -42,7 +42,7 @@
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/mikestecker/craft-videoembedder/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/mikestecker/craft-videoembedder/v1/CHANGELOG.md",
         "class": "mikestecker\\videoembedder\\VideoEmbedder"
     }
 }
