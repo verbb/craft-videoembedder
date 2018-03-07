@@ -251,6 +251,71 @@ class VideoEmbedderService extends Component
         
     }
 
+    /**
+     * Retrieves the title of video
+     * @param - $url: the url of the "player"
+     * @return - string
+     * 
+    **/
+    public function getTitle($url) {
+        $url_parts = parse_url($url);
+
+        $title = $this->cleanUrl($this->getInfo($url)->title);
+        return $title;
+    }
+
+    /**
+     * Retrieves the description of embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * 
+    **/
+    public function getDescription($url) {
+        $url_parts = parse_url($url);
+
+        $description = $this->cleanUrl($this->getInfo($url)->description);
+        return $description;
+    }
+
+    /**
+     * Retrieves the type of embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * 
+    **/
+    public function getType($url) {
+        $url_parts = parse_url($url);
+
+        $type = $this->cleanUrl($this->getInfo($url)->type);
+        return $type;
+    }
+
+    /**
+     * Retrieves the aspect ratio of embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * 
+    **/
+    public function getAspectRatio($url) {
+        $url_parts = parse_url($url);
+
+        $aspectRatio = $this->cleanUrl($this->getInfo($url)->aspectRatio);
+        return $aspectRatio;
+    }
+
+    /**
+     * Retrieves the provider of the embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * 
+    **/
+    public function getProviderName($url) {
+        $url_parts = parse_url($url);
+
+        $providerName = $this->cleanUrl($this->getInfo($url)->providerName);
+        return $providerName;
+    }
+
     private function cleanUrl($url) {
         $stripped = preg_replace( '/^https?:/', '', $url );
         return $stripped;

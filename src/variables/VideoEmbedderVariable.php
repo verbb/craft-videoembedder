@@ -58,4 +58,59 @@ class VideoEmbedderVariable
         return Template::raw(VideoEmbedder::$plugin->service->getVideoThumbnail($url));
     }
 
+    /**
+     * Retrieves the title of the embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getTitle($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getTitle($url));
+    }
+
+    /**
+     * Retrieves the description of the embed from url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getDescription($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getDescription($url));
+    }
+
+    /**
+     * Retrieves the type of embed from url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getType($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getType($url));
+    }
+
+    /**
+     * Retrieves the aspect ratio of embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getAspectRatio($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getAspectRatio($url));
+    }
+
+    /**
+     * Retrieves the provider of the embed url
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getProviderName($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getProviderName($url));
+    }
+
 }
