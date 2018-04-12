@@ -113,4 +113,15 @@ class VideoEmbedderVariable
         return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->providerName);
     }
 
+    /**
+     * Retrieves video ID
+     * @param - $url: the url of the "player"
+     * @return - string
+     * @todo - do some real world testing. 
+     * 
+    **/
+    public function getVideoId($url) {
+        return Template::raw(VideoEmbedder::$plugin->service->getVideoId($url));
+    }
+
 }

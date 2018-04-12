@@ -251,6 +251,35 @@ class VideoEmbedderService extends Component
     }
 
 
+
+    /**
+     * Take a url and returns only the video ID
+     *
+     * @param string $url
+     * @return string
+     */
+    public function getVideoId($url)
+    {
+        // looks like there are, now let's only do this for YouTube and Vimeo
+        if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
+        {
+            if ($this->isYouTube($url))
+            {
+                return $this->getYouTubeId($url);
+            }
+            else if ($this->isVimeo($url))
+            {
+                return $this->getVimeoId($url);
+            }
+        }
+        else
+        {
+            // return empty string
+            return '';
+        }
+    }
+
+
     /**
      * Retrieves the thumbnail from a youtube or vimeo video
      * @param - $url
