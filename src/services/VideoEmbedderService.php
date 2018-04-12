@@ -158,14 +158,26 @@ class VideoEmbedderService extends Component
             }
             else
             {
-                // Not YouTube or Vimeo, just output the code
-                return $code;
+                if (!empty($code)) {
+                    // Not YouTube or Vimeo, just output the code
+                    return $code;
+                }
+                else
+                {
+                    return '';
+                }
             }
         }
         else
         {
-            // No parameters passed, just output the code
-            return $code;
+            if (!empty($code)) {
+                // No parameters passed, just output the code
+                return $code;
+            }
+            else
+            {
+                return '';
+            }
         }
 
     }
@@ -215,6 +227,11 @@ class VideoEmbedderService extends Component
                 $embedUrl = '//player.vimeo.com/video/' . $segments[1] . $parameters;
                 return $embedUrl;
             }
+        }
+        else
+        {
+            // return empty string
+            return '';
         }
     }
 
