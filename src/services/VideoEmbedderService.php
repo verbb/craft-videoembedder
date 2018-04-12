@@ -304,7 +304,14 @@ class VideoEmbedderService extends Component
             // not vimeo, use Embed
             $image = $this->cleanUrl($this->getInfo($url)->image);
             
-            return $image;
+            // Check if anything exists
+            if (!empty($image)) {
+                return $image;
+            }
+            else
+            {
+                return '';
+            }
         }
     }
 
