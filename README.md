@@ -8,7 +8,7 @@ Ported over from [Viget's](https://viget.com) [Video Embed plugin for Craft 2.x]
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-RC1 or later.
+This plugin requires Craft CMS 3.0.0 or later.
 
 ## Installation
 
@@ -25,16 +25,24 @@ Video Embedder will take your YouTube or Vimeo URL's and convert the URL into an
 
 ## Using Video Embedder
 
-Pass a YouTube or Vimeo URL to the `getEmbedUrl` variable and an embed URL will be returned.
+Pass a YouTube or Vimeo URL to the `getEmbedUrl` variable and an embed URL will be returned. The plugin will check if the URL is valid and allows embedding. If it doesn't, it will return an empty string.
 
 ```
-{{ craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
+{% set embed = craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') %}
+
+{% if embed | length %}
+    {{ embed }}
+{% endif %}
 ```
 
 **Example:**
 
 ```
-<iframe src="{{ craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') }}"></iframe>
+{% set embed = craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254') %}
+
+{% if embed | length %}
+    <iframe src="{{ embed }}"></iframe>
+{% endif %}
 ```
 
 **Output:**
@@ -50,7 +58,7 @@ ___
  `getEmbedUrl` will now accept optional parameters to YouTube and Vimeo URL's such as `autoplay`, `rel`, etc:
 
 ```
-{{ craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254', {autoplay: 1, rel: 0, theme: 'dark'}) }}
+{% set embed = craft.videoEmbedder.getEmbedUrl('https://www.youtube.com/watch?v=6xWpo5Dn254', {autoplay: 1, rel: 0, theme: 'dark'}) %}
 ```
 
 ___
@@ -58,7 +66,11 @@ ___
 Video Embedder will also pull the largest thumbnail URL from YouTube or Vimeo using the `getVideoThumbnail` variable.
 
 ```
-{{ craft.videoEmbedder.getVideoThumbnail('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
+{% set thumbnail = craft.videoEmbedder.getVideoThumbnail('https://www.youtube.com/watch?v=6xWpo5Dn254') %}
+
+{% if thumbnail | length %}
+    {{ thumbnail }}
+{% endif %}
 ```
 
 **Output:**
@@ -75,15 +87,36 @@ Video Embedder will now generate the iframe code. Simple use the `embed` variabl
 
 Basic example:
 ```
-{{ craft.videoEmbedder.embed('https://www.youtube.com/watch?v=6xWpo5Dn254') }}
+{% set embed = craft.videoEmbedder.embed('https://www.youtube.com/watch?v=6xWpo5Dn254') %}
+
+{% if embed | length %}
+    {{ embed }}
+{% endif %}
 ```
 
 With parameters:
 ```
-{{ craft.videoEmbedder.embed('https://www.youtube.com/watch?v=6xWpo5Dn254', {autoplay: 1, rel: 0, theme: 'dark'}) }}
+{% set embed = craft.videoEmbedder.embed('https://www.youtube.com/watch?v=6xWpo5Dn254', {autoplay: 1, rel: 0, theme: 'dark'}) %}
 ```
 
 These parameters will simply output at the end of the embed URL string and have only been tested with YouTube and Vimeo. Check with each provider for which parameters are supported.
+
+___
+
+***New in 1.0.9:*** 
+
+Return only the Vimeo or YouTube ID from the URL. This is helpful in use cases such as using it with [Plyr](https://github.com/sampotts/plyr/)
+
+Basic example:
+```
+{% set videoUrl = 'https://www.youtube.com/watch?v=6xWpo5Dn254' %}
+{% set videoId = craft.videoEmbedder.getVideoId(videoUrl) %}
+{% set providerName = craft.videoEmbedder.getProviderName(videoUrl) %}
+
+{% if videoId | length %}
+    <div id="player" data-plyr-provider="{{ providerName | lower }}" data-plyr-embed-id="{{ videoId }}"></div>
+{% endif %}
+```
 
 
 ## Video Embedder Roadmap

@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.9 - 2018-04-12
+### Added
+- Added `getVideoId` variable
+### Changed
+- Code cleanup
+- Updated functions to return an empty string if the URL returns null for any reason. (#5, #6)
+- Craft 3.0.0 release is required, no longer supporting RC versions
+
 ## 1.0.8 - 2018-03-07
 ### Added
 - Added `getTitle` variable
