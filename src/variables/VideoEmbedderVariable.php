@@ -66,7 +66,7 @@ class VideoEmbedderVariable
      * 
     **/
     public function getTitle($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getTitle($url));
+        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->title);
     }
 
     /**
@@ -77,7 +77,7 @@ class VideoEmbedderVariable
      * 
     **/
     public function getDescription($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getDescription($url));
+        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->description);
     }
 
     /**
@@ -88,7 +88,7 @@ class VideoEmbedderVariable
      * 
     **/
     public function getType($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getType($url));
+        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->type);
     }
 
     /**
@@ -99,7 +99,7 @@ class VideoEmbedderVariable
      * 
     **/
     public function getAspectRatio($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getAspectRatio($url));
+        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->aspectRatio);
     }
 
     /**
@@ -110,7 +110,7 @@ class VideoEmbedderVariable
      * 
     **/
     public function getProviderName($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getProviderName($url));
+        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->providerName);
     }
 
 }

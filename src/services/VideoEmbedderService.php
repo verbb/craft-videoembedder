@@ -91,6 +91,27 @@ class VideoEmbedderService extends Component
         return strpos($url, 'viddler.com/') !== FALSE;
     }
 
+    /**
+     * Parse the YouTube URL, return the video ID
+     * @param string $url
+     * @return string
+     */
+    public function getYouTubeId($url)
+    {
+        preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+        return $match[1];
+    }
+
+    /**
+     * Parse the Vimeo URL, return the video ID
+     * @param string $url
+     * @return string
+     */
+    public function getVimeoId($url)
+    {
+        preg_match('%^https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)(?:[?]?.*)$%im', $url, $matches);
+        return $matches[3];
+    }
 
 
 
@@ -104,7 +125,6 @@ class VideoEmbedderService extends Component
     public function embed( $url, $params = [] ) : string
     {
         $code = $this->getInfo($url)->code;
-        $url_parts = parse_url($url);
 
         // check if theree are any parameters passed along
         if (!empty($params)) {
@@ -192,9 +212,6 @@ class VideoEmbedderService extends Component
      */
     public function getEmbedUrl($url, $params = [] )
     {
-        $code = $this->getInfo($url)->code;
-        $url_parts = parse_url($url);
-
         // looks like there are, now let's only do this for YouTube and Vimeo
         if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
         {
@@ -215,16 +232,14 @@ class VideoEmbedderService extends Component
             }
             
             if ($this->isYouTube($url)) {
-                $url_parts = parse_url($url);
-                parse_str($url_parts['query'], $segments);
+                $id = $this->getYouTubeId($url);
     
-                $embedUrl = '//www.youtube.com/embed/' . $segments['v'] . $parameters;
+                $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
                 return $embedUrl;
             } else if ($this->isVimeo($url)) {
-                $url_parts = parse_url($url);
-                $segments = explode('/', $url_parts['path']);
+                $id = $this->getVimeoId($url);
     
-                $embedUrl = '//player.vimeo.com/video/' . $segments[1] . $parameters;
+                $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
                 return $embedUrl;
             }
         }
@@ -238,18 +253,15 @@ class VideoEmbedderService extends Component
 
     /**
      * Retrieves the thumbnail from a youtube or vimeo video
-     * @param - $url: the url of the "player"
+     * @param - $url
      * @return - string
      * 
     **/
     public function getVideoThumbnail($url) {
-        $url_parts = parse_url($url);
-
         // check for vimeo, I don't like the way Embed returns the Vimeo thumbnail
         if($this->getInfo($url)->type == 'video' && $this->isVimeo($url))
         {
-            $segments = explode('/', $url_parts['path']);
-            $id = $segments[1];
+            $id = $this->getVimeoId($url);
             
             $data = file_get_contents("http://vimeo.com/api/v2/video/$id.json");
             $data = json_decode($data);
@@ -265,72 +277,6 @@ class VideoEmbedderService extends Component
             
             return $image;
         }
-        
-    }
-
-    /**
-     * Retrieves the title of video
-     * @param - $url: the url of the "player"
-     * @return - string
-     * 
-    **/
-    public function getTitle($url) {
-        $url_parts = parse_url($url);
-
-        $title = $this->cleanUrl($this->getInfo($url)->title);
-        return $title;
-    }
-
-    /**
-     * Retrieves the description of embed url
-     * @param - $url: the url of the "player"
-     * @return - string
-     * 
-    **/
-    public function getDescription($url) {
-        $url_parts = parse_url($url);
-
-        $description = $this->cleanUrl($this->getInfo($url)->description);
-        return $description;
-    }
-
-    /**
-     * Retrieves the type of embed url
-     * @param - $url: the url of the "player"
-     * @return - string
-     * 
-    **/
-    public function getType($url) {
-        $url_parts = parse_url($url);
-
-        $type = $this->cleanUrl($this->getInfo($url)->type);
-        return $type;
-    }
-
-    /**
-     * Retrieves the aspect ratio of embed url
-     * @param - $url: the url of the "player"
-     * @return - string
-     * 
-    **/
-    public function getAspectRatio($url) {
-        $url_parts = parse_url($url);
-
-        $aspectRatio = $this->cleanUrl($this->getInfo($url)->aspectRatio);
-        return $aspectRatio;
-    }
-
-    /**
-     * Retrieves the provider of the embed url
-     * @param - $url: the url of the "player"
-     * @return - string
-     * 
-    **/
-    public function getProviderName($url) {
-        $url_parts = parse_url($url);
-
-        $providerName = $this->cleanUrl($this->getInfo($url)->providerName);
-        return $providerName;
     }
 
     private function cleanUrl($url) {
