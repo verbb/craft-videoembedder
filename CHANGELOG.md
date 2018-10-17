@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Added
 
--   Added video fieldtype
+-   Added video fieldtype (thanks @samuelbirch!)
 
 ## 1.0.9 - 2018-04-12
 
