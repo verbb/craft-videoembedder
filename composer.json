@@ -1,48 +1,48 @@
 {
-    "name": "mikestecker/craft-videoembedder",
-    "description": "Craft plugin to generate an embed URL from a YouTube or Vimeo URL.",
-    "type": "craft-plugin",
-    "version": "1.0.9",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "video embedder"
-    ],
-    "support": {
-        "docs": "https://github.com/mikestecker/craft-videoembedder/blob/v1/README.md",
-        "issues": "https://github.com/mikestecker/craft-videoembedder/issues"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Mike Stecker",
-            "homepage": "http://github.com/mikestecker"
-        }
-    ],
-    "require": {
-        "craftcms/cms": "^3.0.0",
-        "embed/embed": "^3.3"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-          "mikestecker\\videoembedder\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "Video Embedder",
-        "handle": "video-embedder",
-        "schemaVersion": "1.0.0",
-        "hasCpSettings": false,
-        "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/mikestecker/craft-videoembedder/v1/CHANGELOG.md",
-        "class": "mikestecker\\videoembedder\\VideoEmbedder"
-    }
+	"name": "mikestecker/craft-videoembedder",
+	"description": "Craft plugin to generate an embed URL from a YouTube or Vimeo URL.",
+	"type": "craft-plugin",
+	"version": "1.1.0",
+	"keywords": [
+		"craft",
+		"cms",
+		"craftcms",
+		"craft-plugin",
+		"video embedder"
+	],
+	"support": {
+		"docs": "https://github.com/mikestecker/craft-videoembedder/blob/v1/README.md",
+		"issues": "https://github.com/mikestecker/craft-videoembedder/issues"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mike Stecker",
+			"homepage": "http://github.com/mikestecker"
+		}
+	],
+	"require": {
+		"craftcms/cms": "^3.0.0",
+		"embed/embed": "^3.3"
+	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://asset-packagist.org"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"mikestecker\\videoembedder\\": "src/"
+		}
+	},
+	"extra": {
+		"name": "Video Embedder",
+		"handle": "video-embedder",
+		"schemaVersion": "1.0.0",
+		"hasCpSettings": false,
+		"hasCpSection": false,
+		"changelogUrl": "https://raw.githubusercontent.com/mikestecker/craft-videoembedder/v1/CHANGELOG.md",
+		"class": "mikestecker\\videoembedder\\VideoEmbedder"
+	}
 }

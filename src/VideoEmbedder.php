@@ -12,12 +12,18 @@ namespace mikestecker\videoembedder;
 
 use mikestecker\videoembedder\services\VideoEmbedderService;
 use mikestecker\videoembedder\variables\VideoEmbedderVariable;
+use mikestecker\videoembedder\fields\Video as VideoField;
 
 use Craft;
 use craft\base\Plugin;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\web\twig\variables\CraftVariable;
+use craft\services\Fields;
+use craft\web\UrlManager;
+use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
+
 
 use yii\base\Event;
 
@@ -62,7 +68,15 @@ class VideoEmbedder extends Plugin
         // Register Components (Services)
         $this->setComponents([
             'service' => VideoEmbedderService::class,
-        ]);
+		]);
+		
+		Event::on(
+            Fields::className(),
+            Fields::EVENT_REGISTER_FIELD_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = VideoField::class;
+            }
+        );
 
         Event::on(
             CraftVariable::class,

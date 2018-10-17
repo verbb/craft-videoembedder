@@ -124,7 +124,8 @@ Basic example:
 Some things to do, and ideas for potential features:
 
 - [x] Add in the ability to actually generate the iframe HTML
-- [ ] Add new Video URL field type that only allows for supported video URL's
+- [x] Add new Video URL fieldype (thanks @samuelbirch!)
+- [ ] Limit Video URL fieldtype to only allow for supported video URL's
 - [ ] Add support for more video providers (partially added with 1.0.5 by switching to using the [Embed](https://github.com/oscarotero/Embed) library)
 - [ ] Add more thumbnail size options
 - [ ] Testing

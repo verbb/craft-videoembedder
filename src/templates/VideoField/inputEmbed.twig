@@ -1,0 +1,8 @@
+{% import "_includes/forms" as forms %}
+
+{% if value %}
+	{% set embed = craft.videoEmbedder.embed(value, {autoplay: 0, rel: 0, theme: 'dark'}) %}
+    {% if embed | length %}
+		{{ embed }}
+	{% endif %}
+{% endif %}

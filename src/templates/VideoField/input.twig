@@ -1,0 +1,39 @@
+{#
+/**
+ * Video Embedder plugin for Craft CMS 3.x
+ *
+ * Craft plugin to generate an embed URL from a YouTube or Vimeo URL.
+ *
+ * @link      http://github.com/mikestecker
+ * @copyright Copyright (c) 2017 Mike Stecker
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+<div class="video-embedder-container">
+
+    <div class="video-embedder-urlContainer flex">
+        <div class="texticon search icon clearable flex-grow">
+            {{ forms.text({
+                id: name,
+                name: name,
+                type: 'url',
+                placeholder: 'Only YouTube and Vimeo supported.',
+                value: value ? value,
+                class: 'video-embedder-url'
+            }) }}
+        </div>
+    </div>
+
+    <div class="video-embedder-previewContainer">
+        {% include 'video-embedder/VideoField/inputEmbed.twig' with {
+            name: name,
+            value: value
+        } only %}
+    </div>
+
+</div>
+
+
+
