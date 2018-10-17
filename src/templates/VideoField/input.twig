@@ -18,6 +18,8 @@
             {{ forms.text({
                 id: name,
                 name: name,
+                type: 'url',
+                placeholder: 'Only YouTube and Vimeo supported.',
                 value: value ? value,
                 class: 'video-embedder-url'
             }) }}
