@@ -218,7 +218,7 @@ class Video extends Field implements PreviewableFieldInterface
      */
     public function isValueEmpty($value, ElementInterface $element = null): bool
     {
-        return parent::isValueEmpty($value);
+        return parent::isValueEmpty($value, $element);
     }
 
 
