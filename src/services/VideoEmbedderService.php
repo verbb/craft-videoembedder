@@ -219,42 +219,52 @@ class VideoEmbedderService extends Component
      */
     public function getEmbedUrl($url, $params = [] )
     {
-        // looks like there are, now let's only do this for YouTube and Vimeo
-        if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
-        {
-            $parameters = '';
 
-            // check if theree are any parameters passed along
-            if (!empty($params)) {
-                
-                $parameters .= '?';
-                $i = 0;
-                foreach ($params as $k=>$v) {
-                    if (($parameters !== null) && ($i !== 0)) {
-                        $parameters .= '&';
+        try {
+
+            // looks like there are, now let's only do this for YouTube and Vimeo
+            if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
+            {
+                $parameters = '';
+    
+                // check if theree are any parameters passed along
+                if (!empty($params)) {
+                    
+                    $parameters .= '?';
+                    $i = 0;
+                    foreach ($params as $k=>$v) {
+                        if (($parameters !== null) && ($i !== 0)) {
+                            $parameters .= '&';
+                        }
+                        $parameters .= "{$k}={$v}";
+                        $i++;
                     }
-                    $parameters .= "{$k}={$v}";
-                    $i++;
+                }
+                
+                if ($this->isYouTube($url)) {
+                    $id = $this->getYouTubeId($url);
+        
+                    $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
+                    return $embedUrl;
+                } else if ($this->isVimeo($url)) {
+                    $id = $this->getVimeoId($url);
+        
+                    $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
+                    return $embedUrl;
                 }
             }
-            
-            if ($this->isYouTube($url)) {
-                $id = $this->getYouTubeId($url);
-    
-                $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
-                return $embedUrl;
-            } else if ($this->isVimeo($url)) {
-                $id = $this->getVimeoId($url);
-    
-                $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
-                return $embedUrl;
+            else
+            {
+                // return empty string
+                return '';
             }
-        }
-        else
+
+        } catch (InvalidUrlException $e)
         {
-            // return empty string
+            // If the URL is invalid (because it's 404ing out or whatever) just return an empty string.
             return '';
         }
+
     }
 
 
