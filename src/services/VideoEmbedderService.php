@@ -35,10 +35,24 @@ class VideoEmbedderService extends Component
      */
     public function getInfo($url)
     {
-        return Embed::create($url, [
+		// use oembed if vimeo
+		if ($this->isVimeo($url) && !$this->isOembed($url)) {
+			$url = 'https://vimeo.com/api/oembed.json?url='.$url;
+		}
+		
+		$response = Embed::create($url, [
             'choose_bigger_image' => true,
             'parameters' => [],
-        ]);
+		]);
+		
+		if ($this->isVimeo($url) && $this->isOembed($url)) {
+			$data = json_decode($response->response->getContent());
+			$data->aspectRatio = $data->width / $data->height;
+			$data->code = $data->html;
+			return $data;
+		}
+
+		return $response;
     }
 
 
@@ -90,7 +104,17 @@ class VideoEmbedderService extends Component
     public function isViddler($url)
     {
         return strpos($url, 'viddler.com/') !== FALSE;
-    }
+	}
+	
+	/**
+     * Is the url using oEmbed format
+     * @param string $url
+     * @return boolean
+     */
+    public function isOembed($url)
+    {
+        return strpos($url, 'oembed.json?') !== FALSE;
+	}
 
     /**
      * Parse the YouTube URL, return the video ID
