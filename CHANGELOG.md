@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.1.3 - 2019-05-30
+
+### Fixed
+
+-   Wrapping functions in a try-catch to fail more gracefully. (#19) (thanks @mijewe!)
+
+## 1.1.2 - 2019-05-23
+
+### Fixed
+
+-   Added better handling of invalid and private video URLs (#16) (thanks @billythekid!)
+
+## 1.1.1 - 2018-11-02
+
+### Fixed
+
+-   Fixed `isValueEmpty` bug in fieldtype (thanks @samuelbirch!)
+
 ## 1.1.0 - 2018-10-12
 
 ### Added

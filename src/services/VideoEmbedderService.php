@@ -10,6 +10,7 @@
 
 namespace mikestecker\videoembedder\services;
 
+use Embed\Exceptions\InvalidUrlException;
 use mikestecker\videoembedder\VideoEmbedder;
 
 use Craft;
@@ -124,62 +125,75 @@ class VideoEmbedderService extends Component
      */
     public function embed( $url, $params = [] ) : string
     {
-        $code = $this->getInfo($url)->code;
+        try {
+            $code = $this->getInfo($url)->code;
 
-        // check if theree are any parameters passed along
-        if (!empty($params)) {
-            
-            // looks like there are, now let's only do this for YouTube and Vimeo
-            if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
-            {
+            // check if theree are any parameters passed along
+            if (!empty($params)) {
 
-                // for videos add autoplay check if the embed gets the code
+                // looks like there are, now let's only do this for YouTube and Vimeo
+                if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
+                {
 
-                // create an easy html parser to verify the iframe and add autoplay for video types
-                $dom = new DOMDocument;
+                    // for videos add autoplay check if the embed gets the code
 
-                // set error level so that the html parser doesn't raise exceptions on warnings
-                $internalErrors = libxml_use_internal_errors(true);
+                    // create an easy html parser to verify the iframe and add autoplay for video types
+                    $dom = new DOMDocument;
 
-                $dom->loadHTML($code);
+                    // set error level so that the html parser doesn't raise exceptions on warnings
+                    $internalErrors = libxml_use_internal_errors(true);
 
-                // Restore error level
-                libxml_use_internal_errors($internalErrors);
+                    $dom->loadHTML($code);
 
-                // get the iframe
-                $frame = $dom->getElementsByTagName('iframe')->item(0);
+                    // Restore error level
+                    libxml_use_internal_errors($internalErrors);
 
-                //get the src from iframe
-                $src = $frame->getAttribute('src');
+                    // get the iframe
+                    $frame = $dom->getElementsByTagName('iframe')->item(0);
+
+                    //get the src from iframe
+                    $src = $frame->getAttribute('src');
 
 
-                // check if url has any other parameters to properly add the parameter
-                if (strpos($src,'?') !== false) {
-                    $src .= "&";
-                } else {
-                    $src .= "?";
-                }
-                
-                $parameters = '';
-                foreach ($params as $k=>$v) {
-                    if ($parameters !== null) {
-                        $parameters .= '&';
+                    // check if url has any other parameters to properly add the parameter
+                    if (strpos($src,'?') !== false) {
+                        $src .= "&";
+                    } else {
+                        $src .= "?";
                     }
-                    $parameters .= "{$k}={$v}";
+
+                    $parameters = '';
+                    foreach ($params as $k=>$v) {
+                        if ($parameters !== null) {
+                            $parameters .= '&';
+                        }
+                        $parameters .= "{$k}={$v}";
+                    }
+
+                    $src .= $parameters;
+
+                    // set the new src with all the parameters
+                    $frame->setAttribute('src', $src);
+
+                    // replace old iframe html with new one
+                    return htmlspecialchars_decode($dom->saveHTML($frame));
                 }
-
-                $src .= $parameters;
-
-                // set the new src with all the parameters
-                $frame->setAttribute('src', $src);
-
-                // replace old iframe html with new one
-                return htmlspecialchars_decode($dom->saveHTML($frame));
+                else
+                {
+                    if (!empty($code)) {
+                        // Not YouTube or Vimeo, just output the code
+                        return $code;
+                    }
+                    else
+                    {
+                        return '';
+                    }
+                }
             }
             else
             {
                 if (!empty($code)) {
-                    // Not YouTube or Vimeo, just output the code
+                    // No parameters passed, just output the code
                     return $code;
                 }
                 else
@@ -187,17 +201,10 @@ class VideoEmbedderService extends Component
                     return '';
                 }
             }
-        }
-        else
+        } catch (InvalidUrlException $e)
         {
-            if (!empty($code)) {
-                // No parameters passed, just output the code
-                return $code;
-            }
-            else
-            {
-                return '';
-            }
+            // If the URL is invalid (because it's 404ing out or whatever) just return an empty string.
+            return '';
         }
 
     }
@@ -212,42 +219,52 @@ class VideoEmbedderService extends Component
      */
     public function getEmbedUrl($url, $params = [] )
     {
-        // looks like there are, now let's only do this for YouTube and Vimeo
-        if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
-        {
-            $parameters = '';
 
-            // check if theree are any parameters passed along
-            if (!empty($params)) {
-                
-                $parameters .= '?';
-                $i = 0;
-                foreach ($params as $k=>$v) {
-                    if (($parameters !== null) && ($i !== 0)) {
-                        $parameters .= '&';
+        try {
+
+            // looks like there are, now let's only do this for YouTube and Vimeo
+            if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
+            {
+                $parameters = '';
+    
+                // check if theree are any parameters passed along
+                if (!empty($params)) {
+                    
+                    $parameters .= '?';
+                    $i = 0;
+                    foreach ($params as $k=>$v) {
+                        if (($parameters !== null) && ($i !== 0)) {
+                            $parameters .= '&';
+                        }
+                        $parameters .= "{$k}={$v}";
+                        $i++;
                     }
-                    $parameters .= "{$k}={$v}";
-                    $i++;
+                }
+                
+                if ($this->isYouTube($url)) {
+                    $id = $this->getYouTubeId($url);
+        
+                    $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
+                    return $embedUrl;
+                } else if ($this->isVimeo($url)) {
+                    $id = $this->getVimeoId($url);
+        
+                    $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
+                    return $embedUrl;
                 }
             }
-            
-            if ($this->isYouTube($url)) {
-                $id = $this->getYouTubeId($url);
-    
-                $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
-                return $embedUrl;
-            } else if ($this->isVimeo($url)) {
-                $id = $this->getVimeoId($url);
-    
-                $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
-                return $embedUrl;
+            else
+            {
+                // return empty string
+                return '';
             }
-        }
-        else
+
+        } catch (InvalidUrlException $e)
         {
-            // return empty string
+            // If the URL is invalid (because it's 404ing out or whatever) just return an empty string.
             return '';
         }
+
     }
 
 
