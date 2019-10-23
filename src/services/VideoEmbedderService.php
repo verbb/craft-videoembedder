@@ -40,10 +40,16 @@ class VideoEmbedderService extends Component
 			$url = 'https://vimeo.com/api/oembed.json?url='.$url;
 		}
 		
-		$response = Embed::create($url, [
-            'choose_bigger_image' => true,
-            'parameters' => [],
-		]);
+		try {
+			$response = Embed::create($url, [
+				'choose_bigger_image' => true,
+				'parameters' => [],
+			]);
+		} 
+		catch (Exception $e) 
+		{
+			$response = null;
+		}
 		
 		if ($this->isVimeo($url) && $this->isOembed($url)) {
 			$data = json_decode($response->response->getContent());
