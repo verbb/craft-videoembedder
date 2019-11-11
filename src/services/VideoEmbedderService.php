@@ -27,6 +27,7 @@ use Embed\Embed;
 class VideoEmbedderService extends Component
 {
 
+    private $infoCache = [];
 
     /**
      * Tap the Embed library
@@ -35,22 +36,26 @@ class VideoEmbedderService extends Component
      */
     public function getInfo($url)
     {
+        if (isset($this->infoCache[$url])) {
+            return $this->infoCache[$url];
+        }
+
 		// use oembed if vimeo
 		if ($this->isVimeo($url) && !$this->isOembed($url)) {
 			$url = 'https://vimeo.com/api/oembed.json?url='.$url;
 		}
-		
+
 		try {
 			$response = Embed::create($url, [
 				'choose_bigger_image' => true,
 				'parameters' => [],
 			]);
-		} 
-		catch (Exception $e) 
+		}
+		catch (Exception $e)
 		{
 			$response = null;
 		}
-		
+
 		if ($this->isVimeo($url) && $this->isOembed($url)) {
 			$data = json_decode($response->response->getContent());
 			$data->aspectRatio = $data->width / $data->height;
@@ -111,7 +116,7 @@ class VideoEmbedderService extends Component
     {
         return strpos($url, 'viddler.com/') !== FALSE;
 	}
-	
+
 	/**
      * Is the url using oEmbed format
      * @param string $url
@@ -256,10 +261,10 @@ class VideoEmbedderService extends Component
             if($this->getInfo($url)->type == 'video' && ($this->isYouTube($url) || $this->isVimeo($url)))
             {
                 $parameters = '';
-    
+
                 // check if theree are any parameters passed along
                 if (!empty($params)) {
-                    
+
                     $parameters .= '?';
                     $i = 0;
                     foreach ($params as $k=>$v) {
@@ -270,15 +275,15 @@ class VideoEmbedderService extends Component
                         $i++;
                     }
                 }
-                
+
                 if ($this->isYouTube($url)) {
                     $id = $this->getYouTubeId($url);
-        
+
                     $embedUrl = '//www.youtube.com/embed/' . $id . $parameters;
                     return $embedUrl;
                 } else if ($this->isVimeo($url)) {
                     $id = $this->getVimeoId($url);
-        
+
                     $embedUrl = '//player.vimeo.com/video/' . $id . $parameters;
                     return $embedUrl;
                 }
@@ -331,26 +336,26 @@ class VideoEmbedderService extends Component
      * Retrieves the thumbnail from a youtube or vimeo video
      * @param - $url
      * @return - string
-     * 
+     *
     **/
     public function getVideoThumbnail($url) {
         // check for vimeo, I don't like the way Embed returns the Vimeo thumbnail
         if($this->getInfo($url)->type == 'video' && $this->isVimeo($url))
         {
             $id = $this->getVimeoId($url);
-            
+
             $data = file_get_contents("http://vimeo.com/api/v2/video/$id.json");
             $data = json_decode($data);
-            
+
             $image = $this->cleanUrl($data[0]->thumbnail_large);
-            
+
             return $image;
         }
         else
         {
             // not vimeo, use Embed
             $image = $this->cleanUrl($this->getInfo($url)->image);
-            
+
             // Check if anything exists
             if (!empty($image)) {
                 return $image;
@@ -366,5 +371,5 @@ class VideoEmbedderService extends Component
         $stripped = preg_replace( '/^https?:/', '', $url );
         return $stripped;
     }
-    
+
 }
