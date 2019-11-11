@@ -63,6 +63,7 @@ class VideoEmbedderService extends Component
 			return $data;
 		}
 
+        $this->infoCache[$url] = $response;
 		return $response;
     }
 
