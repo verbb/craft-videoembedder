@@ -135,6 +135,11 @@ class VideoEmbedderService extends Component
     public function getYouTubeId($url)
     {
         preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+
+        if (empty($match)) {
+          throw new InvalidUrlException;
+        }
+
         return $match[1];
     }
 
