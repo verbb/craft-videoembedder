@@ -110,7 +110,8 @@ class VideoEmbedderVariable
      * 
     **/
     public function getProviderName($url) {
-        return Template::raw(VideoEmbedder::$plugin->service->getInfo($url)->providerName);
+        $provider = VideoEmbedder::$plugin->service->getInfo($url)->providerName ?? VideoEmbedder::$plugin->service->getInfo($url)->provider_name;
+        return Template::raw($provider);
     }
 
     /**
