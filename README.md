@@ -1,7 +1,9 @@
+> [!IMPORTANT]
+> **Video Embedder** is no longer in development, in favour of [Video Picker](https://verbb.io/blog/video-picker).
+>
+> If you've got a Craft 3 site using Video Embedder, [talk to us](https://verbb.io/contact) about a **free** licenses for Video Picker to get your site upgraded.
+
 # Video Embedder plugin for Craft CMS 3.x
-
-![Screenshot](resources/img/plugin-logo.png)
-
 Craft plugin to generate an embed URL from a YouTube or Vimeo URL. This plugin will be 100% free.
 
 Ported over from [Viget's](https://viget.com) [Video Embed plugin for Craft 2.x](https://github.com/vigetlabs/craft-videoembed).
